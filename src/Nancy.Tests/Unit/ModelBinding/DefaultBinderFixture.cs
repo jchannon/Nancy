@@ -471,6 +471,28 @@ namespace Nancy.Tests.Unit.ModelBinding
         }
 
         [Fact]
+        public void Multiple_Form_properties_should_bind_to_list()
+        {
+            var typeConverters = new ITypeConverter[] { new CollectionConverter(), new FallbackConverter(), };
+            var binder = this.GetBinder(typeConverters);
+         
+
+            var context = CreateContextWithHeader("Content-Type", new[] { "application/xml" });
+            context.Request.Form["StringProperty_1"] = "Test";
+            context.Request.Form["IntProperty_1"] = "1";
+            context.Request.Query["StringProperty_2"] = "Test2";
+            context.Request.Query["IntProperty_2"] = "2";
+
+            // When
+            var result = (List<TestModel>)binder.Bind(context, typeof(List<TestModel>), null, new BindingConfig());
+            // Then
+            result.First().StringProperty.ShouldEqual("Test");
+            result.First().IntProperty.ShouldEqual(1);
+            result.Last().StringProperty.ShouldEqual("Test2");
+            result.Last().IntProperty.ShouldEqual(2);
+        }
+
+        [Fact]
         public void Form_properties_should_take_precendence_over_request_properties_and_context_properties()
         {
             var binder = this.GetBinder();
