@@ -49,8 +49,6 @@ namespace Nancy.ModelBinding
             this.defaults = defaults;
         }
 
-
-
         /// <summary>
         /// Bind to the given model type
         /// </summary>
@@ -106,7 +104,6 @@ namespace Nancy.ModelBinding
 
                     var list = bindingContext.Model as IList;
                     list.Add(genericinstance);
-
                 }
             }
             else
@@ -147,7 +144,7 @@ namespace Nancy.ModelBinding
             if (dictionary == null)
                 return 0;
 
-            var matches = dictionary.Where(x => IsMatch(x.Key));
+            var matches = dictionary.Where(x => IsMatch(x.Key)).ToArray();
 
             if (!matches.Any())
             {
