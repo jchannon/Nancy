@@ -144,17 +144,17 @@ namespace Nancy.ModelBinding
             if (dictionary == null)
                 return 0;
 
-            var matches = dictionary.Where(x => IsMatch(x.Key)).ToArray();
+            var matches = dictionary.Keys.Where(x => IsMatch(x)).ToArray();
 
             if (!matches.Any())
             {
                 return 0;
             }
 
-            var orderedFormParam = matches.OrderByDescending(y => y.Key).First();
+            var orderedFormParam = matches.OrderByDescending(y => y).First();
 
-            var keyValue = orderedFormParam.Key;
-            var value = int.Parse(keyValue[keyValue.Length - 1].ToString()); ;
+            //var keyValue = orderedFormParam.Key;
+            var value = int.Parse(orderedFormParam[orderedFormParam.Length - 1].ToString()); ;
             return value;
         }
 
