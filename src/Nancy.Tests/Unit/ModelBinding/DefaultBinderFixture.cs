@@ -454,7 +454,6 @@ namespace Nancy.Tests.Unit.ModelBinding
         [Fact]
         public void Form_properties_should_take_precendence_over_request_properties()
         {
-
             var binder = this.GetBinder();
 
             var context = CreateContextWithHeader("Content-Type", new[] { "application/xml" });
@@ -480,8 +479,8 @@ namespace Nancy.Tests.Unit.ModelBinding
             var context = CreateContextWithHeader("Content-Type", new[] { "application/xml" });
             context.Request.Form["StringProperty_1"] = "Test";
             context.Request.Form["IntProperty_1"] = "1";
-            context.Request.Query["StringProperty_2"] = "Test2";
-            context.Request.Query["IntProperty_2"] = "2";
+            context.Request.Form["StringProperty_2"] = "Test2";
+            context.Request.Form["IntProperty_2"] = "2";
 
             // When
             var result = (List<TestModel>)binder.Bind(context, typeof(List<TestModel>), null, new BindingConfig());
