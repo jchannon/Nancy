@@ -476,7 +476,7 @@ namespace Nancy.Tests.Unit.ModelBinding
             var binder = this.GetBinder(typeConverters);
 
 
-            var context = CreateContextWithHeader("Content-Type", new[] { "application/xml" });
+            var context = CreateContextWithHeader("Content-Type", new[] { "application/x-www-form-urlencoded" });
             context.Request.Form["StringProperty_1"] = "Test";
             context.Request.Form["IntProperty_1"] = "1";
             context.Request.Form["StringProperty_2"] = "Test2";
@@ -497,7 +497,7 @@ namespace Nancy.Tests.Unit.ModelBinding
             var typeConverters = new ITypeConverter[] { new CollectionConverter(), new FallbackConverter(), };
             var binder = this.GetBinder(typeConverters);
 
-            var context = CreateContextWithHeader("Content-Type", new[] { "application/xml" });
+            var context = CreateContextWithHeader("Content-Type", new[] { "application/x-www-form-urlencoded" });
 
             context.Request.Form["IntValues"] = "1,2,3,4";
 
@@ -513,7 +513,7 @@ namespace Nancy.Tests.Unit.ModelBinding
             var typeConverters = new ITypeConverter[] { new CollectionConverter(), new FallbackConverter(), };
             var binder = this.GetBinder(typeConverters);
 
-            var context = CreateContextWithHeader("Content-Type", new[] { "application/xml" });
+            var context = CreateContextWithHeader("Content-Type", new[] { "application/x-www-form-urlencoded" });
 
             context.Request.Form["IntValues_1"] = "1,2,3,4";
             context.Request.Form["IntValues_2"] = "5,6,7,8";
