@@ -44,7 +44,7 @@ namespace Nancy.Tests.Unit.Sessions
             var response = new Response();
 
             cookieStore.Save(null, response);
-            
+
             response.Cookies.Count.ShouldEqual(0);
         }
 
@@ -112,7 +112,7 @@ namespace Nancy.Tests.Unit.Sessions
             var request = CreateRequest(null);
 
             var result = cookieStore.Load(request);
-            
+
             result.Count.ShouldEqual(0);
         }
 
@@ -291,6 +291,30 @@ namespace Nancy.Tests.Unit.Sessions
         }
 
         [Fact]
+        public void Should_be_able_to_load_an_list_previously_saved_to_session()
+        {
+            var response = new Response();
+            var session = new Session(new Dictionary<string, object>());
+            var payload =
+                new List<DefaultSessionObjectFormatterFixture.Payload>(new[]
+                                                                           {
+                                                                               new DefaultSessionObjectFormatterFixture.
+                                                                                   Payload(27, true, "Test string"),
+                                                                               new DefaultSessionObjectFormatterFixture.
+                                                                                   Payload(28, false, "More text")
+                                                                           });
+            var store = new CookieBasedSessions(this.rijndaelEncryptionProvider, this.defaultHmacProvider, new DefaultObjectSerializer());
+            session["testObject"] = payload;
+            store.Save(session, response);
+            var request = new Request("GET", "/", "http");
+            request.Cookies.Add(Helpers.HttpUtility.UrlEncode(response.Cookies.First().Name), Helpers.HttpUtility.UrlEncode(response.Cookies.First().Value));
+
+            var result = store.Load(request);
+
+            result["testObject"].ShouldEqual(payload);
+        }
+
+        [Fact]
         public void Should_encrypt_data()
         {
             var response = new Response();
@@ -385,7 +409,7 @@ namespace Nancy.Tests.Unit.Sessions
 
             if (!string.IsNullOrEmpty(sessionValue))
             {
-                headers.Add("cookie", new[] { CookieBasedSessions.GetCookieName()+ "=" + HttpUtility.UrlEncode(sessionValue) });
+                headers.Add("cookie", new[] { CookieBasedSessions.GetCookieName() + "=" + HttpUtility.UrlEncode(sessionValue) });
             }
 
             var request = new Request("GET", "http://goku.power:9001/", headers, CreateRequestStream(), "http");

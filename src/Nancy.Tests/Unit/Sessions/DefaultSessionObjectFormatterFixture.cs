@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Nancy.Tests.Unit.Sessions
 {
     using System;
@@ -38,10 +40,21 @@ namespace Nancy.Tests.Unit.Sessions
         }
 
         [Fact]
+        public void Should_serialize_and_deserialize_list_serializable_object()
+        {
+            var input = new List<Payload>(new[] { new Payload(27, true, "This is some text"), new Payload(28, false, "More text") });
+            var serialised = this.serializer.Serialize(input);
+
+            var output = (List<Payload>)this.serializer.Deserialize(serialised);
+
+            output.ShouldEqual(input);
+        }
+
+        [Fact]
         public void Should_return_empty_string_when_serializing_null()
         {
             object input = null;
-            
+
             var output = this.serializer.Serialize(input);
 
             output.ShouldEqual(string.Empty);
