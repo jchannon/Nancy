@@ -470,8 +470,9 @@ namespace Nancy.Tests.Unit.ModelBinding
         }
 
         [Fact]
-        public void Multiple_Form_properties_should_bind_to_list()
+        public void Should_bind_multiple_Form_properties_to_list()
         {
+            //Given
             var typeConverters = new ITypeConverter[] { new CollectionConverter(), new FallbackConverter(), };
             var binder = this.GetBinder(typeConverters);
 
@@ -484,6 +485,7 @@ namespace Nancy.Tests.Unit.ModelBinding
 
             // When
             var result = (List<TestModel>)binder.Bind(context, typeof(List<TestModel>), null, new BindingConfig());
+
             // Then
             result.First().StringProperty.ShouldEqual("Test");
             result.First().IntProperty.ShouldEqual(1);
@@ -494,6 +496,7 @@ namespace Nancy.Tests.Unit.ModelBinding
         [Fact]
         public void Should_bind_to_IEnumerable_from_Form()
         {
+            //Given
             var typeConverters = new ITypeConverter[] { new CollectionConverter(), new FallbackConverter(), };
             var binder = this.GetBinder(typeConverters);
 
@@ -503,6 +506,7 @@ namespace Nancy.Tests.Unit.ModelBinding
 
             // When
             var result = (TestModel)binder.Bind(context, typeof(TestModel), null, new BindingConfig());
+
             // Then
             result.IntValues.ShouldHaveCount(4);
         }

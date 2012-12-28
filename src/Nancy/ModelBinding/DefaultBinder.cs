@@ -87,9 +87,7 @@ namespace Nancy.ModelBinding
 
                         var collectionStringValue = GetValue(modelProperty.Name + "_" + i, bindingContext);
 
-                        if (!String.IsNullOrEmpty(collectionStringValue) &&
-                            (IsDefaultValue(existingCollectionValue, modelProperty.PropertyType) ||
-                             bindingContext.Configuration.Overwrite))
+                        if (BindingValueIsValid(collectionStringValue, existingCollectionValue, modelProperty, bindingContext))
                         {
                             try
                             {
@@ -114,9 +112,7 @@ namespace Nancy.ModelBinding
 
                     var stringValue = GetValue(modelProperty.Name, bindingContext);
 
-                    if (!String.IsNullOrEmpty(stringValue) &&
-                        (IsDefaultValue(existingValue, modelProperty.PropertyType) ||
-                         bindingContext.Configuration.Overwrite))
+                    if (BindingValueIsValid(stringValue, existingValue, modelProperty, bindingContext))
                     {
                         try
                         {
@@ -138,11 +134,20 @@ namespace Nancy.ModelBinding
             return bindingContext.Model;
         }
 
+        private bool BindingValueIsValid(string bindingValue, object existingValue, PropertyInfo modelProperty, BindingContext bindingContext)
+        {
+            return (!String.IsNullOrEmpty(bindingValue) &&
+                    (IsDefaultValue(existingValue, modelProperty.PropertyType) ||
+                     bindingContext.Configuration.Overwrite));
+        }
+
         private int GetBindingListInstanceCount(NancyContext context)
         {
             var dictionary = context.Request.Form as IDictionary<string, object>;
             if (dictionary == null)
+            {
                 return 0;
+            }
 
             var matches = dictionary.Keys.Where(x => IsMatch(x)).ToArray();
 
@@ -153,8 +158,8 @@ namespace Nancy.ModelBinding
 
             var orderedFormParam = matches.OrderByDescending(y => y).First();
 
-            //var keyValue = orderedFormParam.Key;
-            var value = int.Parse(orderedFormParam[orderedFormParam.Length - 1].ToString()); ;
+            var value = int.Parse(orderedFormParam[orderedFormParam.Length - 1].ToString()); 
+
             return value;
         }
 
