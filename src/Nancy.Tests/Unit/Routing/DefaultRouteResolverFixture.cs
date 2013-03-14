@@ -132,8 +132,8 @@
             var result = this.browser.Options("/");
 
             result.StatusCode.ShouldEqual(HttpStatusCode.OK);
-			result.Headers["Allow"].Contains ("GET");
-			result.Headers["Allow"].Contains ("POST");
+			result.Headers["Allow"].Contains("GET");
+			result.Headers["Allow"].Contains("POST");
         }
 
         [Fact]
