@@ -1,7 +1,9 @@
 ﻿namespace Nancy.Demo.MarkdownViewEngine
 {
     using System;
+    using System.Globalization;
     using System.Text.RegularExpressions;
+    using System.Threading;
     using CsQuery;
     using MarkdownSharp;
 
@@ -14,16 +16,16 @@
 
         private readonly Markdown parser = new Markdown();
 
-        public BlogModel(string markdown)
-        {
-
-            Title = GetTitle(markdown);
-            Abstract = GetAbstract(markdown);
-        }
-
         public string Title { get; private set; }
 
         public string Abstract { get; private set; }
+
+        public DateTime BlogDate { get; private set; }
+
+        public string FriendlyDate
+        {
+            get { return BlogDate.ToString("dddd,MMMM dd, yyyy"); }
+        }
 
         public string StrippedTitle
         {
@@ -34,22 +36,36 @@
             }
         }
 
-      
-      
+        public BlogModel(string markdown)
+        {
+            BlogDate = GetBlogDate(markdown);
+            Title = GetTitle(markdown);
+            Abstract = GetAbstract(markdown);
+        }
+
+        private DateTime GetBlogDate(string content)
+        {
+            string ssveRemoved = SSVESubstitution.Replace(content, "").Trim();
+            string datetimeString = ssveRemoved.Substring(0, ssveRemoved.IndexOf(Environment.NewLine, StringComparison.Ordinal));
+            return DateTime.ParseExact(datetimeString, "yyyyMMdd", CultureInfo.InvariantCulture);
+
+        }
+
         private string GetTitle(string content)
         {
             string ssveRemoved = SSVESubstitution.Replace(content, "").Trim();
+
+            var lines = Regex.Split(ssveRemoved, Environment.NewLine);
+
             return
-                parser.Transform(ssveRemoved.Substring(0,
-                                                       ssveRemoved.IndexOf(Environment.NewLine, StringComparison.Ordinal)));
+                parser.Transform(lines[2]);
         }
 
         private string GetAbstract(string content)
         {
             string ssveRemoved = SSVESubstitution.Replace(content, "").Trim();
-            return
-                parser.Transform(
-                    ssveRemoved.Substring(ssveRemoved.IndexOf(Environment.NewLine, StringComparison.Ordinal), 175));
+            var abstractpost = ssveRemoved.Substring(ssveRemoved.IndexOf(")", StringComparison.Ordinal) + 1, 175).Trim();
+            return parser.Transform(abstractpost);
         }
     }
 }
