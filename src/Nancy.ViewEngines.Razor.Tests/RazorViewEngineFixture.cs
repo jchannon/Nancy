@@ -493,10 +493,10 @@
                 "vbhtml",
                 () => new StringReader(view.ToString())
             );
-#endif
+
             var stream = new MemoryStream();
 
-            A.CallTo(() => this.configuration.GetAssemblyNames()).Returns(new[] { "Nancy.ViewEngines.Razor.Tests" });
+            //A.CallTo(() => this.configuration.GetAssemblyNames()).Returns(new[] { "Nancy.ViewEngines.Razor.Tests" });
 
             // When
             var response = this.engine.RenderView(location, null, this.renderContext);
@@ -506,6 +506,7 @@
             var output = ReadAll(stream).Trim();
             output.ShouldEqual("<h1>Hi, Nancy!</h1>");
         }
+#endif
 
         [Fact(Skip = "Multi-threading regression test")]
         public void should_work_on_multiple_threads()
