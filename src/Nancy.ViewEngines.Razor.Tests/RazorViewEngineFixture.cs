@@ -496,7 +496,7 @@
 
             var stream = new MemoryStream();
 
-            //A.CallTo(() => this.configuration.GetAssemblyNames()).Returns(new[] { "Nancy.ViewEngines.Razor.Tests" });
+            A.CallTo(() => this.configuration.GetAssemblyNames()).Returns(new[] { "Nancy.ViewEngines.Razor.Tests" });
 
             // When
             var response = this.engine.RenderView(location, null, this.renderContext);
