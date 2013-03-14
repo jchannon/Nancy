@@ -43,13 +43,13 @@ namespace Nancy.Demo.MarkdownViewEngine.Modules
         {
             var views = GetViewsFromPath(path, new[] { "md", "markdown" });
 
-            var model =
-                views.Select(
-                    x =>
-                    {
-                        var markdown = x.Contents().ReadToEnd();
-                        return new BlogModel(markdown);
-                    }).ToList();
+            var model = views.Select(x =>
+                            {
+                                var markdown = x.Contents().ReadToEnd();
+                                return new BlogModel(markdown);
+                            })
+                            .OrderByDescending(x => x.BlogDate)
+                            .ToList();
 
             return model;
         }
