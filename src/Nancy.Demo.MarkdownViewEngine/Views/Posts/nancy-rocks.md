@@ -4,6 +4,8 @@
 
 @Partial['blogheader'];
 
+20121211
+
 #[Nancy Rocks!](/nancy-rocks)
 
 Leberkas short ribs ham, jerky pancetta turducken meatball meatloaf chuck corned beef pork belly ribeye bacon capicola chicken. Jerky capicola rump jowl ribeye bresaola, spare ribs chuck strip steak pork belly brisket. Salami turkey shoulder filet mignon kielbasa. Tongue tail shank ground round. Leberkas meatball spare ribs shank. Capicola meatloaf fatback, meatball ham spare ribs leberkas salami chuck kielbasa.
