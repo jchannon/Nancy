@@ -1,12 +1,16 @@
 ﻿@Master['master']
 
+@Tags
+Date: 23/02/2013
+Title: Nancy Rocks
+Tags: Nancy,.Net,C#
+@EndTags
+
 @Section['Content']
 
-@Partial['blogheader'];
+@Partial['blogheader', Model.MetaData];
 
-20121211
-
-#[Nancy Rocks!](/nancy-rocks)
+# Nancy Rocks!
 
 Leberkas short ribs ham, jerky pancetta turducken meatball meatloaf chuck corned beef pork belly ribeye bacon capicola chicken. Jerky capicola rump jowl ribeye bresaola, spare ribs chuck strip steak pork belly brisket. Salami turkey shoulder filet mignon kielbasa. Tongue tail shank ground round. Leberkas meatball spare ribs shank. Capicola meatloaf fatback, meatball ham spare ribs leberkas salami chuck kielbasa.
 
@@ -14,6 +18,6 @@ Short ribs corned beef ham brisket hamburger ham hock. Chuck turducken pork loin
 
 Salami rump filet mignon, sirloin turkey jowl chuck brisket chicken kielbasa short loin capicola flank bacon t-bone. Ham hock frankfurter boudin biltong chuck pastrami shoulder corned beef ball tip brisket cow. T-bone shank strip steak bacon doner jerky corned beef short ribs. Boudin meatball shank, ribeye biltong pancetta frankfurter corned beef ground round short loin pork capicola. Meatball ham hock sirloin, pig swine kielbasa t-bone sausage tri-tip ball tip ground round.
 
-@Partial['blogfooter'];
+@Partial['blogfooter', Model.MetaData];
 
 @EndSection

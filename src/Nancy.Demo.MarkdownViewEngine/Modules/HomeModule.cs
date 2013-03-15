@@ -2,22 +2,24 @@ namespace Nancy.Demo.MarkdownViewEngine.Modules
 {
     using System;
     using System.Collections.Generic;
+    using System.Dynamic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
     using MarkdownSharp;
-    using Model;
     using ViewEngines;
 
     public class HomeModule : NancyModule
     {
+        private readonly IViewLocationProvider viewLocationProvider;
         private readonly IFileSystemReader fileSystemReader;
         private readonly IRootPathProvider rootPathProvider;
         private readonly string rootPath;
 
-        public HomeModule(IFileSystemReader fileSystemReader, IRootPathProvider rootPathProvider)
+        public HomeModule(IViewLocationProvider viewLocationProvider, IFileSystemReader fileSystemReader, IRootPathProvider rootPathProvider)
         {
+            this.viewLocationProvider = viewLocationProvider;
             this.fileSystemReader = fileSystemReader;
             this.rootPathProvider = rootPathProvider;
             this.rootPath = rootPathProvider.GetRootPath();
@@ -28,14 +30,25 @@ namespace Nancy.Demo.MarkdownViewEngine.Modules
 
             Get["/"] = _ =>
                            {
-                               var model = GetModel(path, new[] { "md", "markdown" });
-                               return View["blogindex", model];
+                               var popularposts = GetModel(path, new[] { "md", "markdown" });
+
+                               dynamic postModel = new ExpandoObject();
+                               postModel.PopularPosts = popularposts;
+                               postModel.MetaData = popularposts;
+
+                               return View["blogindex", postModel];
                            };
 
             Get["/{viewname}"] = parameters =>
                                      {
-                                         var model = GetModel(path, new[] { "md", "markdown" });
-                                         return View["Posts/" + parameters.viewname, model];
+                                         var popularposts = GetModel(path, new[] { "md", "markdown" });
+
+                                         dynamic postModel = new ExpandoObject();
+                                         postModel.PopularPosts = popularposts;
+                                         postModel.MetaData =
+                                             popularposts.FirstOrDefault(x => x.Slug == parameters.viewname);
+
+                                         return View["Posts/" + parameters.viewname, postModel];
                                      };
         }
 
