@@ -74,8 +74,7 @@
 
             var kvp = metaData.FirstOrDefault(x => x.Key == "Date");
 
-            DateTime blogDateTime;
-            DateTime.TryParse(kvp.Value, out blogDateTime);
+            DateTime blogDateTime = DateTime.ParseExact(kvp.Value, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             return blogDateTime;
         }
