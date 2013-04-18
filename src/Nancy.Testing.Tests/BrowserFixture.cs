@@ -16,6 +16,8 @@ namespace Nancy.Testing.Tests
     using FakeItEasy;
     using Nancy.Authentication.Forms;
 
+    using Xunit.Extensions;
+
     public class BrowserFixture
     {
         private readonly Browser browser;
@@ -339,12 +341,14 @@ namespace Nancy.Testing.Tests
             cookieValue.ShouldEqual(cookieContents);
         }
 
-        [Fact]
-        public void Should_return_error_message_on_cyclical_exception()
+        [Theory]
+        [InlineData("application/json")]
+        [InlineData("application/xml")]
+        public void Should_return_error_message_on_cyclical_exception(string accept)
         {
-            var result = browser.Get("/cyclical", with => with.Accept("application/json"));
+            var result = browser.Get("/cyclical", with => with.Accept(accept));
 
-            result.Body.AsString().ShouldEqual("Circular reference detected.");
+            result.Body.AsString().ShouldNotBeEmpty();
         }
 
         public class EchoModel
