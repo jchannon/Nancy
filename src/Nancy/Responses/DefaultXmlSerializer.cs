@@ -36,9 +36,9 @@
         /// <returns>Serialised object</returns>
         public void Serialize<TModel>(string contentType, TModel model, Stream outputStream)
         {
-            var serializer = new XmlSerializer(typeof(TModel));
             try
             {
+                var serializer = new XmlSerializer(typeof(TModel));
                 serializer.Serialize(outputStream, model);
             }
             catch (Exception exception)

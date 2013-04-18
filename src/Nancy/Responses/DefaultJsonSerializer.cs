@@ -46,9 +46,9 @@
                 {
                     serializer.Serialize(model, writer);
                 }
-                catch (InvalidOperationException iox)
+                catch (Exception exception)
                 {
-                    writer.Write(iox.Message);
+                    writer.Write(exception.Message);
                 }                
             }
         }
