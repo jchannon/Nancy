@@ -42,8 +42,14 @@
                 var serializer = new JavaScriptSerializer(null, false, JsonSettings.MaxJsonLength, JsonSettings.MaxRecursions);
             
                 serializer.RegisterConverters(JsonSettings.Converters);
-
-                serializer.Serialize(model, writer);
+                try
+                {
+                    serializer.Serialize(model, writer);
+                }
+                catch (InvalidOperationException iox)
+                {
+                    writer.Write(iox.Message);
+                }                
             }
         }
 
