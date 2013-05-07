@@ -346,8 +346,10 @@ namespace Nancy.Testing.Tests
         [InlineData("application/xml")]
         public void Should_return_error_message_on_cyclical_exception(string accept)
         {
+            //Given/When
             var result = browser.Get("/cyclical", with => with.Accept(accept));
 
+            //Then
             result.Body.AsString().ShouldNotBeEmpty();
         }
 
