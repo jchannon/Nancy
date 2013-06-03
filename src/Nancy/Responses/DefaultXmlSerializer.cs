@@ -43,8 +43,11 @@
             }
             catch (Exception exception)
             {
-                var bytes = Encoding.UTF8.GetBytes(exception.Message);
-                outputStream.Write(bytes, 0, exception.Message.Length);
+                if (!StaticConfiguration.DisableErrorTraces)
+                {
+                    var bytes = Encoding.UTF8.GetBytes(exception.Message);
+                    outputStream.Write(bytes, 0, exception.Message.Length);
+                }
             }
 
         }

@@ -353,6 +353,19 @@ namespace Nancy.Testing.Tests
             result.Body.AsString().ShouldNotBeEmpty();
         }
 
+        [Theory]
+        [InlineData("application/json")]
+        [InlineData("application/xml")]
+        public void Should_return_no_error_message_on_cyclical_exception_when_disabled_error_trace(string accept)
+        {
+            //Given/When
+            StaticConfiguration.DisableErrorTraces = true;
+            var result = browser.Get("/cyclical", with => with.Accept(accept));
+
+            //Then
+            result.Body.AsString().ShouldBeEmpty();
+        }
+
         public class EchoModel
         {
             public string SomeString { get; set; }

@@ -48,7 +48,10 @@
                 }
                 catch (Exception exception)
                 {
-                    writer.Write(exception.Message);
+                    if (!StaticConfiguration.DisableErrorTraces)
+                    {
+                        writer.Write(exception.Message);
+                    }
                 }                
             }
         }
