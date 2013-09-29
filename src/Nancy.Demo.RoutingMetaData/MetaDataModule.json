@@ -14,8 +14,8 @@
         "path": "/anotherroute",
         "parameters": [
             {
-                "type": "int",
-                "name": "id"
+                "type": "string",
+                "name": "plop"
             }
         ]
     }

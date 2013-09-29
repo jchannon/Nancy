@@ -1154,27 +1154,27 @@ namespace Nancy.Testing
             }
 
             /// <summary>
-            /// Configures the bootstrapper to create an <see cref="IRouteDescriptionProvider"/> instance of the specified type.
+            /// Configures the bootstrapper to create an <see cref="IRouteMetaDataProvider"/> instance of the specified type.
             /// </summary>
-            /// <typeparam name="T">The type of the <see cref="IRouteDescriptionProvider"/> that the bootstrapper should use.</typeparam>
+            /// <typeparam name="T">The type of the <see cref="IRouteMetaDataProvider"/> that the bootstrapper should use.</typeparam>
             /// <returns>A reference to the current <see cref="ConfigurableBootstrapperConfigurator"/>.</returns>
-            public ConfigurableBootstrapperConfigurator RouteDescriptionProvider<T>() where T : IRouteDescriptionProvider
+            public ConfigurableBootstrapperConfigurator RouteDescriptionProvider<T>() where T : IRouteMetaDataProvider
             {
                 this.bootstrapper.registeredTypes.Add(
-                    new TypeRegistration(typeof(IRouteDescriptionProvider), typeof(T)));
+                    new TypeRegistration(typeof(IRouteMetaDataProvider), typeof(T)));
 
                 return this;
             }
 
             /// <summary>
-            /// Configures the bootstrapper to use the provided instance of <see cref="IRouteDescriptionProvider"/>.
+            /// Configures the bootstrapper to use the provided instance of <see cref="IRouteMetaDataProvider"/>.
             /// </summary>
-            /// <param name="routeDescriptionProvider">The <see cref="IRouteDescriptionProvider"/> instance that should be used by the bootstrapper.</param>
+            /// <param name="routeDescriptionProvider">The <see cref="IRouteMetaDataProvider"/> instance that should be used by the bootstrapper.</param>
             /// <returns>A reference to the current <see cref="ConfigurableBootstrapperConfigurator"/>.</returns>
-            public ConfigurableBootstrapperConfigurator RouteDescriptionProvider(IRouteDescriptionProvider routeDescriptionProvider)
+            public ConfigurableBootstrapperConfigurator RouteDescriptionProvider(IRouteMetaDataProvider routeDescriptionProvider)
             {
                 this.bootstrapper.registeredInstances.Add(
-                    new InstanceRegistration(typeof(IRouteDescriptionProvider), routeDescriptionProvider));
+                    new InstanceRegistration(typeof(IRouteMetaDataProvider), routeDescriptionProvider));
 
                 return this;
             }

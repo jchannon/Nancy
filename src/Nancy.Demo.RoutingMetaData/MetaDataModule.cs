@@ -21,7 +21,6 @@ namespace Nancy.Demo.RoutingMetaData
 							Method = y.Item2.Method,
 							Path = y.Item2.Path,
 							MetaData = y.Item2.MetaData,
-							Description = y.Item2.Description
 						}));
 
 				return model;

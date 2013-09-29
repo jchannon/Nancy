@@ -12,14 +12,14 @@
         private readonly INancyModuleCatalog fakeModuleCatalog;
         private readonly IRouteCache routeCache;
         private readonly IRouteSegmentExtractor routeSegmentExtractor;
-        private readonly IRouteDescriptionProvider routeDescriptionProvider;
+        private readonly IRouteMetaDataProvider routeDescriptionProvider;
 
         /// <summary>
         /// Initializes a new instance of the RouteCacheFixture class.
         /// </summary>
         public RouteCacheFixture()
         {
-            this.routeDescriptionProvider = A.Fake<IRouteDescriptionProvider>();
+            this.routeDescriptionProvider = A.Fake<IRouteMetaDataProvider>();
             this.routeSegmentExtractor = A.Fake<IRouteSegmentExtractor>();
             this.fakeModuleCatalog = new FakeModuleCatalog();
 
@@ -128,7 +128,7 @@
             A.CallTo(() => catalog.GetAllModules(A<NancyContext>._)).Returns(new[] { module });
 
             var descriptionProvider =
-                A.Fake<IRouteDescriptionProvider>();
+                A.Fake<IRouteMetaDataProvider>();
 
             // When
             var cache = new RouteCache(
@@ -157,7 +157,7 @@
             A.CallTo(() => catalog.GetAllModules(A<NancyContext>._)).Returns(new[] { module });
 
             var descriptionProvider =
-                A.Fake<IRouteDescriptionProvider>();
+                A.Fake<IRouteMetaDataProvider>();
 
             // When
             var cache = new RouteCache(

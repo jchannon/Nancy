@@ -31,22 +31,13 @@ namespace Nancy.Routing
             this.Condition = condition;
         }
 
-		public object MetaData {
-			get;
-			set;
-		}
+        public MetaData MetaData { get; set; }
 
         /// <summary>
         /// The condition that has to be fulfilled inorder for the route to be a valid match.
         /// </summary>
         /// <value>A function that evaluates the condition when a <see cref="NancyContext"/> instance is passed in.</value>
         public Func<NancyContext, bool> Condition { get; private set; }
-
-        /// <summary>
-        /// The description of what the route is for.
-        /// </summary>
-        /// <value>A <see cref="string"/> containing the description of the route.</value>
-        public string Description { get; set; }
 
         /// <summary>
         /// Gets the method of the route.

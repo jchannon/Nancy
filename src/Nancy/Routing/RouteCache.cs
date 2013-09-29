@@ -12,7 +12,7 @@
     public class RouteCache : Dictionary<Type, List<Tuple<int, RouteDescription>>>, IRouteCache
     {
         private readonly IRouteSegmentExtractor routeSegmentExtractor;
-        private readonly IRouteDescriptionProvider routeDescriptionProvider;
+        private readonly IRouteMetaDataProvider routeMetaDataProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RouteCache"/> class.
@@ -20,10 +20,10 @@
         /// <param name="moduleCatalog">The <see cref="INancyModuleCatalog"/> that should be used by the cache.</param>
         /// <param name="contextFactory">The <see cref="INancyContextFactory"/> that should be used to create a context instance.</param>
         /// <param name="routeSegmentExtractor"> </param>
-        public RouteCache(INancyModuleCatalog moduleCatalog, INancyContextFactory contextFactory, IRouteSegmentExtractor routeSegmentExtractor, IRouteDescriptionProvider routeDescriptionProvider, ICultureService cultureService)
+        public RouteCache(INancyModuleCatalog moduleCatalog, INancyContextFactory contextFactory, IRouteSegmentExtractor routeSegmentExtractor, IRouteMetaDataProvider routeMetaDataProvider, ICultureService cultureService)
         {
             this.routeSegmentExtractor = routeSegmentExtractor;
-            this.routeDescriptionProvider = routeDescriptionProvider;
+            this.routeMetaDataProvider = routeMetaDataProvider;
 
             var request = new Request("GET", "/", "http");
 
@@ -53,8 +53,7 @@
 
                 foreach (var routeDescription in routes)
                 {
-                    routeDescription.Description = this.routeDescriptionProvider.GetDescription(module, routeDescription.Path);
-					routeDescription.MetaData = this.routeDescriptionProvider.GetMetaData (module, routeDescription.Path, routeDescription.Method);
+					routeDescription.MetaData = this.routeMetaDataProvider.GetMetaData (module, routeDescription.Path, routeDescription.Method);
                     routeDescription.Segments = this.routeSegmentExtractor.Extract(routeDescription.Path).ToArray();
                 }
 
