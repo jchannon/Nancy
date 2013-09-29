@@ -31,6 +31,11 @@ namespace Nancy.Routing
             this.Condition = condition;
         }
 
+		public object MetaData {
+			get;
+			set;
+		}
+
         /// <summary>
         /// The condition that has to be fulfilled inorder for the route to be a valid match.
         /// </summary>

@@ -54,6 +54,7 @@
                 foreach (var routeDescription in routes)
                 {
                     routeDescription.Description = this.routeDescriptionProvider.GetDescription(module, routeDescription.Path);
+					routeDescription.MetaData = this.routeDescriptionProvider.GetMetaData (module, routeDescription.Path, routeDescription.Method);
                     routeDescription.Segments = this.routeSegmentExtractor.Extract(routeDescription.Path).ToArray();
                 }
 

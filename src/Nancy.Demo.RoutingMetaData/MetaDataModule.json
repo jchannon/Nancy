@@ -1,0 +1,22 @@
+[
+    {
+        "method": "get",
+        "path": "/",
+        "parameters": [
+            {
+                "type": "int",
+                "name": "id"
+            }
+        ]
+    },
+    {
+        "method": "get",
+        "path": "/anotherroute",
+        "parameters": [
+            {
+                "type": "int",
+                "name": "id"
+            }
+        ]
+    }
+]
