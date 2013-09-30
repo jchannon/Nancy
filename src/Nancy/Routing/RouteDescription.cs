@@ -31,6 +31,9 @@ namespace Nancy.Routing
             this.Condition = condition;
         }
 
+        /// <summary>
+        /// The metadata defined in the JSON file of the module
+        /// </summary>
         public MetaData MetaData { get; set; }
 
         /// <summary>
