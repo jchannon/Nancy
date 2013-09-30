@@ -53,7 +53,7 @@
 
                 foreach (var routeDescription in routes)
                 {
-					routeDescription.MetaData = this.routeMetaDataProvider.GetMetaData (module, routeDescription.Path, routeDescription.Method);
+                    routeDescription.MetaData = this.routeMetaDataProvider.GetMetaData(module, routeDescription.Path, routeDescription.Method);
                     routeDescription.Segments = this.routeSegmentExtractor.Extract(routeDescription.Path).ToArray();
                 }
 

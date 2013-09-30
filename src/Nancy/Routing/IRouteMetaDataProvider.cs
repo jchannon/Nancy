@@ -12,6 +12,6 @@
         /// <param name="path">The path on the route</param>
         /// <param name="method">The HTTP verb</param>
         /// <returns>Metadata for the route</returns>
-		MetaData GetMetaData (INancyModule module, string path, string method);
+        MetaData GetMetaData(INancyModule module, string path, string method);
     }
 }
