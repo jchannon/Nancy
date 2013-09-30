@@ -11,17 +11,15 @@ namespace Nancy.Demo.RoutingMetaData
 			Get ["/"] = parameters => {
 				var routes = routeCacheProvider.GetCache();
 
-					var model =
-						routes.SelectMany(
-							x =>
-							x.Value.Select(
-							y =>
-							new 
-							{
-							Method = y.Item2.Method,
-							Path = y.Item2.Path,
-							MetaData = y.Item2.MetaData,
-						}));
+			                              var model =
+			                                  routes.SelectMany(
+			                                      x =>
+			                                      x.Value.Select(
+			                                          y =>
+			                                          new
+			                                          {
+			                                              MetaData = y.Item2.MetaData
+			                                          }));
 
 				return model;
 				
