@@ -127,7 +127,7 @@
             var catalog = A.Fake<INancyModuleCatalog>();
             A.CallTo(() => catalog.GetAllModules(A<NancyContext>._)).Returns(new[] { module });
 
-            var descriptionProvider =
+            var metadataProvider =
                 A.Fake<IRouteMetaDataProvider>();
 
             // When
@@ -135,11 +135,11 @@
                 catalog,
                 A.Fake<INancyContextFactory>(),
                 this.routeSegmentExtractor,
-                descriptionProvider,
+                metadataProvider,
                 A.Fake<ICultureService>());
 
             // Then
-            A.CallTo(() => descriptionProvider.GetDescription(module, A<string>._)).MustHaveHappened();
+            A.CallTo(() => metadataProvider.GetMetaData(module, A<string>._, A<string>._)).MustHaveHappened();
         }
 
         [Fact]
@@ -156,7 +156,7 @@
             var catalog = A.Fake<INancyModuleCatalog>();
             A.CallTo(() => catalog.GetAllModules(A<NancyContext>._)).Returns(new[] { module });
 
-            var descriptionProvider =
+            var metadataProvider =
                 A.Fake<IRouteMetaDataProvider>();
 
             // When
@@ -164,11 +164,11 @@
                 catalog,
                 A.Fake<INancyContextFactory>(),
                 this.routeSegmentExtractor,
-                descriptionProvider,
+                metadataProvider,
                 A.Fake<ICultureService>());
 
             // Then
-            A.CallTo(() => descriptionProvider.GetDescription(A<NancyModule>._, expectedPath)).MustHaveHappened();
+            A.CallTo(() => metadataProvider.GetMetaData(A<NancyModule>._, expectedPath, "GET")).MustHaveHappened();
         }
     }
 }
