@@ -51,8 +51,8 @@ namespace Nancy.Routing
                     return
                         metadata.FirstOrDefault(
                             x =>
-                            string.Equals(method, x.method, StringComparison.InvariantCultureIgnoreCase) &&
-                            string.Equals(x.path, path, StringComparison.InvariantCultureIgnoreCase));
+                            string.Equals(x.Method, method, StringComparison.InvariantCultureIgnoreCase) &&
+                            string.Equals(x.Path, path, StringComparison.InvariantCultureIgnoreCase));
                 }
                 return null;
             }

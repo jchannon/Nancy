@@ -2,21 +2,63 @@
     {
         "method": "get",
         "path": "/",
-        "parameters": [
+        "parameters": [],
+        "statuscodes": [
             {
-                "type": "int",
-                "name": "id"
+                "httpstatuscode": 200,
+                "reason": "tikety boo"
+            },
+            {
+                "httpstatuscode": 500,
+                "reason": "uh oh"
             }
-        ]
+        ],
+		"responsedata" : {
+			"type" : "IEnumerable<User>",
+			"properties" : [
+			  {
+				"name" : "id",
+				"description" : "the user's id"
+			  },
+			  {
+				"name" : "firstname",
+				"description" : "the user's first name"
+			  }
+			]
+		}
     },
     {
         "method": "get",
-        "path": "/anotherroute",
+        "path": "/anotherroute/{id}",
         "parameters": [
             {
                 "type": "string",
-                "name": "plop"
+                "name": "plop",
+                "description": "my descriptive route"
             }
-        ]
+        ],
+        "statuscodes": [
+            {
+                "httpstatuscode": 200,
+                "reason": "tikety boo"
+            },
+            {
+                "httpstatuscode": 500,
+                "reason": "uh oh"
+            }
+        ],
+		"responsedata" : {
+			"type" : "IEnumerable<User>",
+			"properties" : [
+			  {
+				"name" : "id",
+				"description" : "the user's id"
+			  },
+			  {
+				"name" : "firstname",
+				"description" : "the user's first name"
+			  }
+			]
+		}
     }
 ]

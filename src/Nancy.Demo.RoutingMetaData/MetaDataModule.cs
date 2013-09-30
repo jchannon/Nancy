@@ -27,7 +27,7 @@ namespace Nancy.Demo.RoutingMetaData
 				
 			};
 
-			Get ["/anotherroute"] = parameters => {return 200;};
+			Get ["/anotherroute/{id}"] = parameters => {return 200;};
 
 			Get ["/moreroutes"] = parameters => {return 200;};
 		}
