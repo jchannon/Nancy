@@ -300,7 +300,7 @@ namespace Nancy.Tests.Unit.ModelBinding
             context.Request.Form["IntProperty"] = "badint";
             context.Request.Form["AnotherIntProperty"] = "morebad";
 
-            var config = new BindingConfig {IgnoreErrors = true};
+            var config = new BindingConfig { IgnoreErrors = true };
 
             // When
             // Then
@@ -320,7 +320,7 @@ namespace Nancy.Tests.Unit.ModelBinding
 
             // When
             var model = binder.Bind(context, typeof(TestModel), null, config) as TestModel;
-            
+
             // Then
             model.AnotherIntProperty.ShouldEqual(10);
         }
@@ -411,12 +411,12 @@ namespace Nancy.Tests.Unit.ModelBinding
             var context = new NancyContext { Request = new FakeRequest("GET", "/") };
             context.Request.Form["StringProperty"] = "Test";
             context.Request.Form["IntProperty"] = "12";
-            
+
             var fakeModule = A.Fake<INancyModule>();
             var fakeModelBinderLocator = A.Fake<IModelBinderLocator>();
             A.CallTo(() => fakeModule.Context).Returns(context);
             A.CallTo(() => fakeModule.ModelBinderLocator).Returns(fakeModelBinderLocator);
-            A.CallTo(() => fakeModelBinderLocator.GetBinderForType(typeof (TestModel), context)).Returns(binder);
+            A.CallTo(() => fakeModelBinderLocator.GetBinderForType(typeof(TestModel), context)).Returns(binder);
 
             // When
             var result = fakeModule.Bind<TestModel>(tm => tm.IntProperty);
@@ -680,7 +680,7 @@ namespace Nancy.Tests.Unit.ModelBinding
             result.First().IntProperty.ShouldEqual(1);
             result.Last().IntProperty.ShouldEqual(12);
         }
-        
+
         [Fact]
         public void Should_bind_more_than_10_multiple_Form_properties_to_list_starting_with_jagged_ids()
         {
@@ -744,7 +744,7 @@ namespace Nancy.Tests.Unit.ModelBinding
 
             // When
             var result = (List<TestModel>)binder.Bind(context, typeof(List<TestModel>), null, BindingConfig.Default);
-            
+
             // Then
             result.First().IntValues.ShouldHaveCount(4);
             result.First().IntValues.ShouldEqualSequence(new[] { 1, 2, 3, 4 });
@@ -766,7 +766,7 @@ namespace Nancy.Tests.Unit.ModelBinding
             context.Request.Form["IntValues[1]"] = "5,6,7,8";
 
             // When
-            var result = (List<TestModel>)binder.Bind(context, typeof(List<TestModel>), new List<TestModel> { new TestModel {AnotherStringProprety = "Test"} }, new BindingConfig { Overwrite = false});
+            var result = (List<TestModel>)binder.Bind(context, typeof(List<TestModel>), new List<TestModel> { new TestModel { AnotherStringProprety = "Test" } }, new BindingConfig { Overwrite = false });
 
             // Then
             result.First().AnotherStringProprety.ShouldEqual("Test");
@@ -906,7 +906,7 @@ namespace Nancy.Tests.Unit.ModelBinding
             result.DateProperty.Date.Day.ShouldEqual(day);
             result.DateProperty.Date.Year.ShouldEqual(year);
         }
-        
+
         [Fact]
         public void Should_be_able_to_bind_from_request_and_context_simultaneously()
         {
@@ -1026,6 +1026,33 @@ namespace Nancy.Tests.Unit.ModelBinding
             result.Last().StringProperty.ShouldEqual("AnotherTest");
         }
 
+        [Fact]
+        public void Should_bind_multiple_Form_properties_to_a_list_as_a_complex_property()
+        {
+            //Given
+            var typeConverters = new ITypeConverter[] { new CollectionConverter(), new FallbackConverter() };
+            var binder = this.GetBinder(typeConverters);
+
+            var context = CreateContextWithHeader("Content-Type", new[] { "application/x-www-form-urlencoded" });
+            context.Request.Form["StringProperty"] = "Test";
+            context.Request.Form["IntProperty"] = "1";
+            context.Request.Form["Friends[0].Name"] = "Steven";
+            context.Request.Form["Friends[0].Age"] = "21";
+            context.Request.Form["Friends[1].Name"] = "Andreas";
+            context.Request.Form["Friends[1].Age"] = "42";
+
+            // When
+            var result = (TestModel)binder.Bind(context, typeof(TestModel), null, BindingConfig.Default);
+
+            // Then
+            result.StringProperty.ShouldEqual("Test");
+            result.IntProperty.ShouldEqual(1);
+            result.Friends.First().Name.ShouldEqual("Steven");
+            result.Friends.First().Name.ShouldEqual(21);
+            result.Friends.Last().Name.ShouldEqual("Andreas");
+            result.Friends.Last().Name.ShouldEqual(42);
+        }
+
 
         [Fact]
         public void Should_bind_array_model_from_body()
@@ -1038,7 +1065,7 @@ namespace Nancy.Tests.Unit.ModelBinding
 
             // When
             var result = (TestModel[])binder.Bind(context, typeof(TestModel[]), null, BindingConfig.Default);
-            
+
             // Then
             result.First().StringProperty.ShouldEqual("Test");
             result.Last().StringProperty.ShouldEqual("AnotherTest");
@@ -1072,10 +1099,10 @@ namespace Nancy.Tests.Unit.ModelBinding
             var context = CreateContextWithHeaderAndBody("Content-Type", new[] { "application/json" }, body);
 
             var then = DateTime.Now;
-            var instance = new List<TestModel> { new TestModel{ DateProperty = then }, new TestModel { IntProperty = 9, AnotherStringProprety = "Bananas" } };
+            var instance = new List<TestModel> { new TestModel { DateProperty = then }, new TestModel { IntProperty = 9, AnotherStringProprety = "Bananas" } };
 
             // When
-            var result = (IEnumerable<TestModel>)binder.Bind(context, typeof(IEnumerable<TestModel>), instance, new BindingConfig{Overwrite = false});
+            var result = (IEnumerable<TestModel>)binder.Bind(context, typeof(IEnumerable<TestModel>), instance, new BindingConfig { Overwrite = false });
 
             // Then
             result.First().StringProperty.ShouldEqual("Test");
@@ -1084,7 +1111,7 @@ namespace Nancy.Tests.Unit.ModelBinding
             result.Last().IntProperty.ShouldEqual(9);
             result.Last().AnotherStringProprety.ShouldEqual("Bananas");
         }
-        
+
         [Fact]
         public void Should_bind_model_with_instance_from_body()
         {
@@ -1106,15 +1133,15 @@ namespace Nancy.Tests.Unit.ModelBinding
             result.IntProperty.ShouldEqual(6);
             result.AnotherStringProprety.ShouldEqual("Beers");
         }
-        
+
         [Fact]
         public void Should_bind_model_from_body_that_contains_an_array()
         {
             //Given
             var typeConverters = new ITypeConverter[] { new CollectionConverter(), new FallbackConverter() };
             var binder = this.GetBinder(typeConverters, new List<IBodyDeserializer> { new JsonBodyDeserializer() });
-            var body = serializer.Serialize(new TestModel {StringProperty = "Test", SomeStrings = new[] {"E", "A", "D", "G", "B", "E"}});
-            
+            var body = serializer.Serialize(new TestModel { StringProperty = "Test", SomeStrings = new[] { "E", "A", "D", "G", "B", "E" } });
+
             var context = CreateContextWithHeaderAndBody("Content-Type", new[] { "application/json" }, body);
 
             // When
@@ -1142,7 +1169,7 @@ namespace Nancy.Tests.Unit.ModelBinding
 
             // When
             var result = (TestModel[])binder.Bind(context, typeof(TestModel[]), null, BindingConfig.Default, "SomeStrings");
-            
+
             // Then
             result.First().SomeStrings.ShouldBeNull();
             result.Last().SomeStrings.ShouldBeNull();
@@ -1298,6 +1325,7 @@ namespace Nancy.Tests.Unit.ModelBinding
             };
         }
 
+
         public class TestModel
         {
             public TestModel()
@@ -1323,12 +1351,22 @@ namespace Nancy.Tests.Unit.ModelBinding
             public IEnumerable<int> IntValues { get; set; }
 
             public string[] SomeStrings { get; set; }
-            
+
             public int this[int index]
             {
                 get { return 0; }
                 set { }
             }
+
+            public List<Friend> Friends { get; set; }
+        }
+
+        public class Friend
+        {
+            public string Name { get; set; }
+
+            public int Age { get; set; }
+
         }
     }
 
