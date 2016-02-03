@@ -4,8 +4,6 @@
     using System.Linq;
     using System.Reflection;
 
-    using Nancy.Bootstrapper;
-
     /// <summary>
     /// Use a custom <see cref="IResourceAssemblyProvider"/> because the default one ignores any
     /// assembly that starts with Nancy*. For normal applications this is not required to
@@ -13,16 +11,22 @@
     /// </summary>
     public class CustomResourceAssemblyProvider : IResourceAssemblyProvider
     {
+        private readonly IAssemblyCatalog assemblyCatalog;
         private IEnumerable<Assembly> filteredAssemblies;
+
+        public CustomResourceAssemblyProvider(IAssemblyCatalog assemblyCatalog)
+        {
+            this.assemblyCatalog = assemblyCatalog;
+        }
 
         public IEnumerable<Assembly> GetAssembliesToScan()
         {
             return (this.filteredAssemblies ?? (this.filteredAssemblies = GetFilteredAssemblies()));
         }
 
-        private static IEnumerable<Assembly> GetFilteredAssemblies()
+        private IEnumerable<Assembly> GetFilteredAssemblies()
         {
-            return AppDomainAssemblyTypeScanner.Assemblies.Where(x => !x.IsDynamic);
+            return this.assemblyCatalog.GetAssemblies().Where(x => !x.IsDynamic);
         }
     }
 }
