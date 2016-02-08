@@ -9,7 +9,7 @@ namespace Nancy
     /// Represents a full Url of the form scheme://hostname:port/basepath/path?query
     /// </summary>
     /// <remarks>Since this is for  internal use, and fragments are not passed to the server, fragments are not supported.</remarks>
-    public sealed class Url : ICloneable
+    public sealed class Url
     {
         private string basePath;
 
@@ -120,15 +120,6 @@ namespace Nancy
                 .Append(GetCorrectPath(this.Path))
                 .Append(this.Query)
                 .ToString();
-        }
-
-        /// <summary>
-        /// Clones the url.
-        /// </summary>
-        /// <returns>Returns a new cloned instance of the url.</returns>
-        object ICloneable.Clone()
-        {
-            return this.Clone();
         }
 
         /// <summary>
