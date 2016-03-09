@@ -2,6 +2,7 @@ namespace Nancy.ModelBinding
 {
     using System;
     using System.Collections;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -15,16 +16,15 @@ namespace Nancy.ModelBinding
     /// </summary>
     public class DefaultBinder : IBinder
     {
+        private ConcurrentDictionary<Type, IEnumerable<BindingMemberInfo>> bindingCache = new ConcurrentDictionary<Type, IEnumerable<BindingMemberInfo>>();
+
         private readonly IEnumerable<ITypeConverter> typeConverters;
-
         private readonly IEnumerable<IBodyDeserializer> bodyDeserializers;
-
         private readonly IFieldNameConverter fieldNameConverter;
-
         private readonly BindingDefaults defaults;
 
-        private readonly static MethodInfo ToListMethodInfo = typeof(Enumerable).GetMethod("ToList", BindingFlags.Public | BindingFlags.Static);
-        private readonly static MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
+        private static readonly MethodInfo ToListMethodInfo = typeof(Enumerable).GetMethod("ToList", BindingFlags.Public | BindingFlags.Static);
+        private static readonly MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
         private static readonly Regex BracketRegex = new Regex(@"\[(\d+)\]\z", RegexOptions.Compiled);
         private static readonly Regex UnderscoreRegex = new Regex(@"_(\d+)\z", RegexOptions.Compiled);
 
@@ -406,12 +406,21 @@ namespace Nancy.ModelBinding
             modelProperty.SetValue(model, value);
         }
 
-        private static IEnumerable<BindingMemberInfo> GetBindingMembers(Type modelType, Type genericType, IEnumerable<string> blackList)
+        private IEnumerable<BindingMemberInfo> GetBindingMembers(Type modelType, Type genericType, IEnumerable<string> blackList)
         {
+            if (this.bindingCache.ContainsKey(modelType))
+            {
+                return this.bindingCache[modelType];
+            }
+
             var blackListHash = new HashSet<string>(blackList, StringComparer.Ordinal);
 
-            return BindingMemberInfo.Collect(genericType ?? modelType)
+            var bindingMembers = BindingMemberInfo.Collect(genericType ?? modelType)
                 .Where(member => !blackListHash.Contains(member.Name));
+
+            this.bindingCache.TryAdd(modelType, bindingMembers);
+
+            return bindingMembers;
         }
 
         private static object CreateModel(Type modelType, Type genericType, object instance)
