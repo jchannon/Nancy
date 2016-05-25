@@ -103,11 +103,6 @@
                         catch (Exception ex)
                         {
                             environment["owin.ResponseStatusCode"] = 500;
-                            var response = environment["owin.ResponseBody"] as Stream;
-                            using (var writer = new StreamWriter(response))
-                            {
-                                await writer.WriteAsync(ex.Message);
-                            }
                         }
                     };
         }
