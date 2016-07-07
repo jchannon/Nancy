@@ -30,6 +30,7 @@ function installdotnet() {
   echo "Installing dotnet"
   curl -sSL https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0-preview2/scripts/obtain/dotnet-install.sh | bash /dev/stdin --version 1.0.0-preview2-003121 --install-dir .dotnet
   export PATH=.dotnet:$PATH
+  dotnet --info
 }
 
 function installcake() {
