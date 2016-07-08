@@ -38,7 +38,7 @@ function installcake() {
   echo "Checking for Cake at "$CAKE_PATH
   if [ ! -f $CAKE_PATH ]; then
     echo "Installing Cake"
-    mono $TOOL_PATH/$NUGET_PATH install Cake -Version $CAKE_VERSION -OutputDirectory $TOOL_PATH
+    mono $TOOL_PATH/$NUGET_PATH install Cake -source https://api.nuget.org/v3/index.json -Version $CAKE_VERSION -OutputDirectory $TOOL_PATH
   fi
 }
 
