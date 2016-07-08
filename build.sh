@@ -6,7 +6,7 @@ SHOW_VERSION=false
 
 SCRIPT_NAME="build.cake"
 TOOL_PATH="tools"
-NUGET_PATH="nuget/NuGet.exe"
+NUGET_PATH="nuget/NuGet.exe"d
 CAKE_VERSION="0.13.0"
 CAKE_PATH="$TOOL_PATH/Cake.$CAKE_VERSION/Cake.exe"
 
