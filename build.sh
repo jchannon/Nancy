@@ -28,7 +28,7 @@ done
 
 function installdotnet() {
   echo "Installing dotnet"
-  wget https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0-preview1/scripts/obtain/dotnet-install.sh
+  wget https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0-preview2/scripts/obtain/dotnet-install.sh
   sudo bash dotnet-install.sh --version 1.0.0-preview2-003121
   export PATH=.dotnet:$PATH
   dotnet --info
